@@ -1,5 +1,8 @@
 # Social Media API
 
+## Video Demo
+[Demo Video](https://app.screencastify.com/v3/watch/iYtqPPQ77tSYTBP1cMtv)
+
 ## Description
 The Social Media API is a backend application that provides endpoints for managing users, thoughts, reactions, and friendships in a social media platform. It allows users to perform various operations such as creating, updating, deleting users and thoughts, adding and removing reactions, and managing friendships.
 
