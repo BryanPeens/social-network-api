@@ -2,7 +2,21 @@
 
 const mongoose = require('mongoose');
 const { User, Thought } = require('../models');
-const { getRandomUsername, getRandomThoughts } = require('./data');
+const { getRandomThoughts } = require('./data');
+
+// Importing the uniq function from Lodash
+const { uniq } = require('lodash');
+
+// Importing the array of usernames
+const { usernames } = require('./data');
+
+// Function to generate unique usernames
+const generateUniqueUsernames = (count) => {
+  // Shuffling the array to randomize the order
+  const shuffledUsernames = usernames.sort(() => Math.random() - 0.5);
+  // Selecting unique usernames from the shuffled array
+  return uniq(shuffledUsernames.slice(0, count)); // Use uniq instead of unique
+};
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost/social-network-api', {
@@ -31,10 +45,13 @@ connection.once('open', async () => {
     const thoughts = await Thought.insertMany(getRandomThoughts(20));
     console.log('Thoughts seeded successfully');
 
-    // Map thought ids for each user
-    const users = Array.from({ length: 20 }, () => ({
-      username: getRandomUsername(),
-      email: `test@email.com`, 
+    // Generate unique usernames
+    const uniqueUsernames = generateUniqueUsernames(20);
+
+    // Insert users with unique usernames
+    const users = uniqueUsernames.map((username, index) => ({
+      username,
+      email: `user${index + 1}@example.com`, // Generate unique emails
       thoughts: thoughts.splice(0, 2).map(thought => thought._id)
     }));
 

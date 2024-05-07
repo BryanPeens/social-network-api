@@ -64,4 +64,4 @@ const getRandomThoughts = (int) => {
   return results;
 };
 
-module.exports = { getRandomUsername, getRandomThoughts };
+module.exports = { usernames, getRandomUsername, getRandomThoughts };

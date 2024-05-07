@@ -1,5 +1,3 @@
-// user-controller.js
-
 const { User } = require('../models');
 
 const UserController = {
@@ -69,6 +67,42 @@ const UserController = {
     } catch (error) {
       console.error('Error deleting user:', error);
       res.status(500).json({ error: 'Failed to delete user' });
+    }
+  },
+
+  // Add a friend to user's friend list
+  addFriend: async (req, res) => {
+    const { userId } = req.params;
+    const { friendId } = req.body;
+    try {
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      user.friends.push(friendId);
+      await user.save();
+      res.json(user);
+    } catch (error) {
+      console.error('Error adding friend:', error);
+      res.status(400).json({ error: 'Failed to add friend' });
+    }
+  },
+
+  // Remove a friend from user's friend list
+  removeFriend: async (req, res) => {
+    const { userId } = req.params;
+    const { friendId } = req.body;
+    try {
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      user.friends = user.friends.filter(id => id !== friendId);
+      await user.save();
+      res.json(user);
+    } catch (error) {
+      console.error('Error removing friend:', error);
+      res.status(400).json({ error: 'Failed to remove friend' });
     }
   }
 };

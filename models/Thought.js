@@ -1,5 +1,3 @@
-// Thought.js
-
 const mongoose = require('mongoose');
 const reactionSchema = require('./Reaction'); // Import ReactionSchema
 
@@ -12,8 +10,7 @@ const thoughtSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-    get: timestamp => dateFormat(timestamp)
+    default: Date.now
   },
   username: {
     type: String,
